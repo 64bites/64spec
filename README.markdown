@@ -46,7 +46,7 @@ sfspec: :init_spec()
 
 ![Empty Spec](docs/qs02-fail.png?raw=true "Empty Spec")
 
-3. Make it pass
+#### 3. Make it pass
 
 ``` asm
 .import source "64spec.asm"
