@@ -2,6 +2,9 @@
 
 6502/Commodore64 Testing Framework for KickAssembler
 
+## Video introduction
+
+[![Video](docs/022.png?raw=true)](http://64bites.com/episodes/022-tdd-with-64spec/)
 ## Installation
 
 ### Recommended way
