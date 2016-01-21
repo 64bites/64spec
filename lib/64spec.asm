@@ -123,8 +123,8 @@
 // TODO: Fix color printing when screen scrolls, and change defaults to true.
 .eval config_64spec("change_context_description_text_color", false)
 .eval config_64spec("change_example_description_text_color", false)
-.eval config_64spec("print_context_results", false)
-.eval config_64spec("print_example_results", false)
+.eval config_64spec("print_context_results", true)
+.eval config_64spec("print_example_results", true)
 
 .eval config_64spec("print_immediate_result", true)
 .eval config_64spec("immediate_result_success_character", "default")
@@ -312,51 +312,18 @@
   :BasicUpstart2(tests_init)
 
 .pc = * "Tests Data"
-  _version_major:
-    .byte _64SPEC_VERSION_MAJOR
-  _version_minor:
-    .byte _64SPEC_VERSION_MINOR
-  _version_patch:
-    .byte _64SPEC_VERSION_PATCH
-  _total_assertions_count:
-    .word 0
-  _passed_assertions_count:
-    .word 0
-  _final_tests_result:
-    .word 0
-  _stored_a:
-    .byte 0
-  _stored_x:
-    .byte 0
-  _stored_y:
-    .byte 0
-  _stored_p:
-    .byte 0
-  _initial_text_color:
-.if (_64SPEC.change_text_color && _64SPEC.revert_to_initial_text_color) {
-    .byte 0
-}
-  _header:
-.if (_64SPEC.print_header) {
-  .var lines = List()
-  .if (_64SPEC.change_character_set == "lowercase") {
-    .eval lines.add("****** 64spec v" + _64spec_version() + " ******")
-    .eval lines.add("Testing Framework by Michal Taszycki")
-    .eval lines.add("Docs at http://64bites.com/64spec")
-  } else {
-    .eval lines.add("****** 64spec v" + _64spec_version() + " ******")
-    .eval lines.add("testing framework by michal taszycki")
-    .eval lines.add("docs at http://64bites.com/64spec")
-  }
-    .byte _CR
-  .for (var i = 0; i < lines.size(); i++) {
-    .fill [40 - lines.get(i).size()] / 2, ' '
-    :_64spec_pet_text(lines.get(i))
-    .byte _CR
-    .byte _CR
-  }
-    .byte 0
-}
+  _version_major: .byte _64SPEC_VERSION_MAJOR
+  _version_minor: .byte _64SPEC_VERSION_MINOR
+  _version_patch: .byte _64SPEC_VERSION_PATCH
+  _total_assertions_count: .word 0
+  _passed_assertions_count: .word 0
+  _tests_result: .word 0
+  _stored_a: .byte 0
+  _stored_x: .byte 0
+  _stored_y: .byte 0
+  _stored_p: .byte 0
+  _initial_text_color: .if (_64SPEC.change_text_color && _64SPEC.revert_to_initial_text_color) .byte 0
+  _header: :_64spec_declare_header(_64SPEC.print_header, _64SPEC.change_character_set == "lowercase")
 
 .if(!_64SPEC._use_custom_result_all_failed_message) {
   .eval _64SPEC.set("result_all_failed_message", *)
@@ -385,27 +352,9 @@
   }
     .byte 0
 }
-  _last_context:
-.if (_64SPEC.print_context_description) {
-    .word 0 // text pointer
-    .word 0 // cursor position
-    .word 0 // total assertions count
-    .word 0 // passed assertions count
-    .byte 0 // tests result
-}
-  _last_example:
-.if (_64SPEC.print_example_description) {
-    .word 0 // text pointer
-    .word 0 // cursor position
-    .word 0 // total assertions count
-    .word 0 // passed assertions count
-    .byte 0 // tests result
-}
-_description_data:
-.if (_64SPEC.print_context_description || _64SPEC.print_example_description) {
-  .word 0 // cursor position
-  .byte 0 // flags - 7 cleared - first context, 6 cleared - first example
-}
+_last_context: :_64spec_declare_common_context_and_example_metadata(_64SPEC.print_context_description)
+_last_example: :_64spec_declare_common_context_and_example_metadata(_64SPEC.print_example_description)
+_description_data: :_64spec_declare_description_data(_64SPEC.print_context_description || _64SPEC.print_example_description)
 
 .pc = * "Tests Subroutines"
 .if(!_64SPEC._use_custom_assertion_passed_subroutine) {
@@ -442,7 +391,7 @@ tests_init:
 .if (_64SPEC.print_header) {
   :_print_string #sfspec._header
 }
-  :_reset_tests_result(sfspec._total_assertions_count)
+  :_reset_tests_result(sfspec)
 
 .pc = * "Specification"
 specification:
@@ -469,13 +418,13 @@ specification:
 }
 
 .macro _assertion_failed() {
-    :_64spec_inc16 sfspec._total_assertions_count
-    .if (_64SPEC.print_context_description) {
-      :_64spec_inc16 sfspec._last_context + 4
-    }
-    .if (_64SPEC.print_example_description) {
-      :_64spec_inc16 sfspec._last_example + 4
-    }
+    :_increment_test_result(sfspec, false)
+  .if (_64SPEC.print_context_description) {
+    :_increment_test_result(sfspec._last_context, false)
+  }
+  .if (_64SPEC.print_example_description) {
+    :_increment_test_result(sfspec._last_example, false)
+  }
   .if (_64SPEC.print_immediate_result) {
     .if (_64SPEC.change_text_color_on_immediate_result) {
       :_set_text_color #_64SPEC.failure_color
@@ -485,15 +434,12 @@ specification:
 }
 
 .macro _assertion_passed() {
-    :_64spec_inc16 sfspec._passed_assertions_count
-    :_64spec_inc16 sfspec._total_assertions_count
+    :_increment_test_result(sfspec, true)
   .if (_64SPEC.print_context_description) {
-    :_64spec_inc16 sfspec._last_context + 4
-    :_64spec_inc16 sfspec._last_context + 6
+    :_increment_test_result(sfspec._last_context, true)
   }
   .if (_64SPEC.print_example_description) {
-    :_64spec_inc16 sfspec._last_example + 4
-    :_64spec_inc16 sfspec._last_example + 6
+    :_increment_test_result(sfspec._last_example, true)
   }
   .if (_64SPEC.print_immediate_result) {
     .if (_64SPEC.change_text_color_on_immediate_result) {
@@ -502,47 +448,48 @@ specification:
     :_print_char #_64SPEC.immediate_result_success_character
   }
 }
-.macro _reset_tests_result(base_address) {
-  .var total_assertions_count = base_address 
-  .var passed_assertions_count = base_address + 2
-  :_64spec_mov16 #$0000; total_assertions_count
-  :_64spec_mov16 #$0000; passed_assertions_count
-}
-.macro _calculate_tests_result(base_address) {
-  .var total_assertions_count = base_address 
-  .var passed_assertions_count = base_address + 2
-  .var final_tests_result = base_address + 4
 
-    lda total_assertions_count
-    cmp passed_assertions_count
+.macro _increment_test_result(namespace, passed) {
+  :_64spec_inc16 namespace._total_assertions_count
+  .if (passed) {
+    :_64spec_inc16 namespace._passed_assertions_count
+  }
+}
+.macro _reset_tests_result(namespace) {
+  :_64spec_mov16 #$0000; namespace._total_assertions_count
+  :_64spec_mov16 #$0000; namespace._passed_assertions_count
+}
+.macro _calculate_tests_result(namespace) {
+    lda namespace._total_assertions_count
+    cmp namespace._passed_assertions_count
     bne !fail+
-    lda total_assertions_count + 1
-    cmp passed_assertions_count + 1
+    lda namespace._total_assertions_count + 1
+    cmp namespace._passed_assertions_count + 1
     bne !fail+
   !pass:
     // We are "overflowing" with success
     lda #%01000000
-    sta final_tests_result
+    sta namespace._tests_result
     jmp !end+
   !fail:
-    lda passed_assertions_count
+    lda namespace._passed_assertions_count
     bne !incomplete_fail+
-    lda passed_assertions_count + 1
+    lda namespace._passed_assertions_count + 1
     bne !incomplete_fail+
   !complete_fail:
     // We are "not overflowing" with success
     lda #%00000000
-    sta final_tests_result
+    sta namespace._tests_result
     jmp !end+
   !incomplete_fail:
     // This is "MInor" failure
     lda #%10000000
-    sta final_tests_result
+    sta namespace._tests_result
   !end:
 }
 
 .macro render_results() {
-  :_calculate_tests_result(sfspec._total_assertions_count)
+  :_calculate_tests_result(sfspec)
   :_set_screen_colors()
   :_change_text_color_on_final_result()
   .if (_64SPEC.print_final_results) {
@@ -563,7 +510,7 @@ specification:
 
 .macro _change_text_color_on_final_result() {
   .if (_64SPEC.change_text_color_on_final_result) {
-    bit sfspec._final_tests_result
+    bit sfspec._tests_result
     bvs success 
     failure:
       :_set_text_color #_64SPEC.failure_color
@@ -578,7 +525,7 @@ specification:
 
 .macro _set_screen_colors() {
   .if ([_64SPEC.change_border_color && _64SPEC.change_border_color_on_final_result] || [_64SPEC.change_background_color && _64SPEC.change_background_color_on_final_result]) {
-      bit sfspec._final_tests_result
+      bit sfspec._tests_result
       bvs success 
   failure:
       lda #_64SPEC.failure_color
@@ -595,20 +542,18 @@ specification:
   }
 }
 
-.macro _print_result_numbers(base_address) {
-  .var total_assertions_count = base_address
-  .var passed_assertions_count = base_address + 2
+.macro _print_result_numbers(namespace) {
   :_print_char #'(' 
-  :_print_int16 passed_assertions_count
+  :_print_int16 namespace._passed_assertions_count
   :_print_char #'/' 
-  :_print_int16 total_assertions_count
+  :_print_int16 namespace._total_assertions_count
   :_print_char #')' 
   :_print_char #_CR
 }
 
 .macro _print_final_results() {
     :_print_char #_CR
-    bit sfspec._final_tests_result
+    bit sfspec._tests_result
     bvs success 
     bmi partial_failure
   failure:
@@ -620,7 +565,7 @@ specification:
   success:
     :_print_string #_64SPEC.result_all_passed_message
   end:
-    :_print_result_numbers(sfspec._total_assertions_count)
+    :_print_result_numbers(sfspec)
 }
 
 // Assertions
@@ -914,7 +859,7 @@ specification:
     ora #%10000000
     sta sfspec._description_data + 2
     :_64spec_mov16 #text; sfspec._last_context
-    :_64spec_kernal_plot_get sfspec._last_context + 2; sfspec._last_context + 3
+    :_64spec_kernal_plot_get(sfspec._last_context._cursor_position)
     :_set_text_color #_64SPEC.text_color
     :_print_string #text
     :_print_string #scoring
@@ -924,9 +869,9 @@ specification:
 .macro _finalize_last_context() {
   .if (_64SPEC.print_context_description ) {
     .if (_64SPEC.change_context_description_text_color) {
-      :_calculate_tests_result(sfspec._last_context + 4)
+      :_calculate_tests_result(sfspec._last_context)
     
-      bit sfspec._last_context + 8
+      bit sfspec._tests_result
       bvs pass
     fail:
       :_set_text_color #_64SPEC.failure_color
@@ -938,13 +883,13 @@ specification:
     .if (_64SPEC.change_context_description_text_color || _64SPEC.print_context_results) {
       bit sfspec._description_data + 2
       bvc end
-      :_64spec_kernal_plot_get sfspec._description_data; sfspec._description_data + 1
-      :_64spec_kernal_plot_set sfspec._last_context + 2; sfspec._last_context + 3
+      :_64spec_kernal_plot_get(sfspec._description_data._cursor_position)
+      :_64spec_kernal_plot_set(sfspec._last_context._cursor_position)
       :_print_string sfspec._last_context
-      :_print_result_numbers(sfspec._last_context + 4)
+      :_print_result_numbers(sfspec._last_context)
 
-      :_64spec_kernal_plot_set sfspec._description_data; sfspec._description_data + 1
-      :_reset_tests_result(sfspec._last_context + 4)
+      :_64spec_kernal_plot_set(sfspec._description_data._cursor_position)
+      :_reset_tests_result(sfspec._last_context)
     end:
     }
   }
@@ -971,7 +916,7 @@ specification:
       ora #%01000000
       sta sfspec._description_data + 2
       :_64spec_mov16 #text; sfspec._last_example
-      :_64spec_kernal_plot_get sfspec._last_example + 2; sfspec._last_example + 3
+      :_64spec_kernal_plot_get(sfspec._last_example._cursor_position)
       :_set_text_color #_64SPEC.text_color
       :_print_string #text
       :_print_string #scoring
@@ -981,7 +926,7 @@ specification:
 .macro _finalize_last_example() {
   .if (_64SPEC.print_example_description) {
     .if (_64SPEC.change_example_description_text_color) {
-      :_calculate_tests_result(sfspec._last_example + 4)
+      :_calculate_tests_result(sfspec._last_example)
       bit sfspec._last_example + 8
       bvs pass
     fail:
@@ -994,12 +939,12 @@ specification:
     .if (_64SPEC.change_example_description_text_color || _64SPEC.print_example_results) {
       bit sfspec._description_data + 2
       bvc end
-      :_64spec_kernal_plot_get sfspec._description_data; sfspec._description_data + 1
-      :_64spec_kernal_plot_set sfspec._last_example + 2; sfspec._last_example + 3
+      :_64spec_kernal_plot_get(sfspec._description_data._cursor_position)
+      :_64spec_kernal_plot_set(sfspec._last_example._cursor_position)
       :_print_string sfspec._last_example
-      :_print_result_numbers(sfspec._last_example + 4)
-      :_64spec_kernal_plot_set sfspec._description_data; sfspec._description_data + 1
-      :_reset_tests_result(sfspec._last_example + 4)
+      :_print_result_numbers(sfspec._last_example)
+      :_64spec_kernal_plot_set(sfspec._description_data._cursor_position)
+      :_reset_tests_result(sfspec._last_example)
     end:
     }
   }
@@ -1176,19 +1121,56 @@ end_filename:
   jsr _OPEN
 }
 
-.pseudocommand _64spec_kernal_plot_get column; row {
+.macro _64spec_kernal_plot_get(cursor_position) {
   sec
   jsr _PLOT
-  .if (column.getType() != AT_NONE) {
-    stx row
-  }
-  .if (row.getType() != AT_NONE) {
-    sty column
-  }
+  stx cursor_position._row
+  sty cursor_position._column
 }
-.pseudocommand _64spec_kernal_plot_set column; row {
+.macro _64spec_kernal_plot_set(cursor_position) {
   clc
-  ldx row
-  ldy column
+  ldx cursor_position._row
+  ldy cursor_position._column
   jsr _PLOT
+}
+
+.macro _64spec_declare_common_context_and_example_metadata(allocate_data) {
+    _text_pointer: .if (allocate_data) .word 0
+    _cursor_position: :_64spec_declare_cursor_position(allocate_data)
+    _total_assertions_count: .if (allocate_data) .word 0
+    _passed_assertions_count: .if (allocate_data) .word 0
+    _tests_result: .if (allocate_data) .byte 0 
+}
+
+.macro _64spec_declare_description_data(allocate_data) {
+  _cursor_position: :_64spec_declare_cursor_position(allocate_data) 
+  _flags: .if (allocate_data) .byte 0 // - 7 cleared - first context, 6 cleared - first example
+}
+
+.macro _64spec_declare_cursor_position(allocate_data) {
+  _column: .if (allocate_data) .byte 0
+  _row: .if (allocate_data) .byte 0
+}
+
+.macro _64spec_declare_header(allocate_data, charset_is_lowercase) {
+  .if (allocate_data) {
+    .var lines = List()
+      .if (charset_is_lowercase) {
+        .eval lines.add("****** 64spec v" + _64spec_version() + " ******")
+          .eval lines.add("Testing Framework by Michal Taszycki")
+          .eval lines.add("Docs at http://64bites.com/64spec")
+      } else {
+        .eval lines.add("****** 64spec v" + _64spec_version() + " ******")
+          .eval lines.add("testing framework by michal taszycki")
+          .eval lines.add("docs at http://64bites.com/64spec")
+      }
+    .byte _CR
+      .for (var i = 0; i < lines.size(); i++) {
+        .fill [40 - lines.get(i).size()] / 2, ' '
+          :_64spec_pet_text(lines.get(i))
+          .byte _CR
+          .byte _CR
+      }
+    .byte 0
+  }
 }
