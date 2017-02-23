@@ -5,7 +5,7 @@ sfspec: :init_spec()
 
   :describe("assert_a_equal")
 
-  :it("works for all values of A register"){
+  :it("works for all values of X register");{
       .var x = floor(random()*256)
       .print "x = " + x + " in assert_x_equal_works_for_all_values_of_x test"
     .for (var expected = 0;expected < 256; expected++) {
@@ -14,7 +14,7 @@ sfspec: :init_spec()
         :assert_x_equal #expected
       } else {
         ldx #x
-        :assert_x_equal #expected; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+        :assert_x_equal #expected : _64SPEC.assertion_failed_subroutine : _64SPEC.assertion_passed_subroutine
       }
     }
   }
@@ -28,7 +28,7 @@ sfspec: :init_spec()
       .if (x == expected) {
         :assert_x_equal #expected
       } else {
-        :assert_x_equal #expected; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+        :assert_x_equal #expected : _64SPEC.assertion_failed_subroutine : _64SPEC.assertion_passed_subroutine
       }
       :assert_x_equal #x
     }
@@ -37,7 +37,7 @@ sfspec: :init_spec()
     ldy #7
     ldx #5
     :assert_x_equal #5
-    :assert_x_equal #6; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_x_equal #6 : _64SPEC.assertion_failed_subroutine : _64SPEC.assertion_passed_subroutine
     :assert_y_equal #7
 
   :it("does not affect A register")
@@ -45,7 +45,7 @@ sfspec: :init_spec()
 
     ldx #68
     :assert_x_equal #68
-    :assert_x_equal #69; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_x_equal #69 : _64SPEC.assertion_failed_subroutine : _64SPEC.assertion_passed_subroutine
 
     :assert_a_equal #9
 
@@ -60,7 +60,7 @@ sfspec: :init_spec()
     plp
 
     :assert_x_equal #68
-    :assert_x_equal #69; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_x_equal #69 : _64SPEC.assertion_failed_subroutine : _64SPEC.assertion_passed_subroutine
 
     :assert_p_equal tmp
 

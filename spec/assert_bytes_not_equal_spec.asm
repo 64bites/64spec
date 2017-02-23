@@ -7,28 +7,28 @@ sfspec: :init_spec()
   :describe("assert_bytes_not_equal")
 
   :it("fails when comparing empty arrays")
-    :assert_bytes_not_equal 0; a; b; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_bytes_not_equal 0: a: b: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
   :it("fails when comparing arrays with same elements")
-    :assert_bytes_not_equal 1; a; b; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_bytes_not_equal 1: a: b: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
   :it("passes if arrays have different values")
-    :assert_bytes_not_equal 2; a; b
+    :assert_bytes_not_equal 2: a: b
 
   :it("can compare 256-element arrays") 
-    :assert_bytes_not_equal 256; ascending1; ascending2; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_bytes_not_equal 256: ascending1: ascending2: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
-  :it("passes if any element is different") {
+  :it("passes if any element is different"); {
     .var bytes_count = 256*2 +47
-      :poke ascending1+bytes_count; #23
-      :poke ascending2+bytes_count; #32
+      :poke ascending1+bytes_count: #23
+      :poke ascending2+bytes_count: #32
     {
     loop:
       :inc16 dec_value
       :inc16 inc_value
-      :cmp_eq16 dec_value; #[ascending2 + bytes_count]
+      :cmp_eq16 dec_value: #[ascending2 + bytes_count]
       beq end
       .label dec_value = * + 1
       dec ascending2 - 1
-      :assert_bytes_not_equal bytes_count; ascending1; ascending2
+      :assert_bytes_not_equal bytes_count: ascending1: ascending2
       ldx pos
       .label inc_value = * + 1
       inc ascending2 - 1, X
@@ -36,8 +36,8 @@ sfspec: :init_spec()
     end:
     } 
       
-    :poke ascending1+bytes_count; #256
-    :poke ascending2+bytes_count; #256
+    :poke ascending1+bytes_count: #256
+    :poke ascending2+bytes_count: #256
   }
   
   :finish_spec()

@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 .const _64SPEC_VERSION_MAJOR = 0
-.const _64SPEC_VERSION_MINOR = 5
+.const _64SPEC_VERSION_MINOR = 7
 .const _64SPEC_VERSION_PATCH = 0
 
 .function _64spec_version() {
@@ -154,56 +154,56 @@
 .eval _64SPEC.set("_use_custom_assertion_failed_subroutine", false)
 
 .function config_64spec(key, value) {
-  .if (validate_boolean_option("print_header", key, value)) .return
-  .if (validate_boolean_option("clear_screen_at_initialization", key, value)) .return
-  .if (validate_boolean_option("change_text_color", key, value)) .return
-  .if (validate_boolean_option("change_text_color_on_immediate_result", key, value)) .return
-  .if (validate_boolean_option("change_text_color_on_final_result", key, value)) .return
-  .if (validate_boolean_option("revert_to_initial_text_color", key, value)) .return
-  .if (validate_boolean_option("change_background_color", key, value)) .return
-  .if (validate_boolean_option("change_background_color_on_final_result", key, value)) .return
-  .if (validate_boolean_option("change_border_color", key, value)) .return
-  .if (validate_boolean_option("change_border_color_on_final_result", key, value)) .return
-  .if (validate_boolean_option("print_immediate_result", key, value)) .return
-  .if (validate_boolean_option("print_final_results", key, value)) .return
-  .if (validate_boolean_option("write_final_results_to_file", key, value)) .return
-  .if (validate_boolean_option("print_configuration", key, value)) .return
-  .if (validate_boolean_option("print_command_line_options", key, value)) .return
-  .if (validate_boolean_option("print_context_description", key, value)) .return
-  .if (validate_boolean_option("print_example_description", key, value)) .return
-  .if (validate_boolean_option("change_context_description_text_color", key, value)) .return
-  .if (validate_boolean_option("change_example_description_text_color", key, value)) .return
-  .if (validate_boolean_option("print_context_results", key, value)) .return
-  .if (validate_boolean_option("print_example_results", key, value)) .return
+  .if (validate_boolean_option("print_header", key, value)) .return null
+  .if (validate_boolean_option("clear_screen_at_initialization", key, value)) .return null
+  .if (validate_boolean_option("change_text_color", key, value)) .return null
+  .if (validate_boolean_option("change_text_color_on_immediate_result", key, value)) .return null
+  .if (validate_boolean_option("change_text_color_on_final_result", key, value)) .return null
+  .if (validate_boolean_option("revert_to_initial_text_color", key, value)) .return null
+  .if (validate_boolean_option("change_background_color", key, value)) .return null
+  .if (validate_boolean_option("change_background_color_on_final_result", key, value)) .return null
+  .if (validate_boolean_option("change_border_color", key, value)) .return null
+  .if (validate_boolean_option("change_border_color_on_final_result", key, value)) .return null
+  .if (validate_boolean_option("print_immediate_result", key, value)) .return null
+  .if (validate_boolean_option("print_final_results", key, value)) .return null
+  .if (validate_boolean_option("write_final_results_to_file", key, value)) .return null
+  .if (validate_boolean_option("print_configuration", key, value)) .return null
+  .if (validate_boolean_option("print_command_line_options", key, value)) .return null
+  .if (validate_boolean_option("print_context_description", key, value)) .return null
+  .if (validate_boolean_option("print_example_description", key, value)) .return null
+  .if (validate_boolean_option("change_context_description_text_color", key, value)) .return null
+  .if (validate_boolean_option("change_example_description_text_color", key, value)) .return null
+  .if (validate_boolean_option("print_context_results", key, value)) .return null
+  .if (validate_boolean_option("print_example_results", key, value)) .return null
 
-  .if (validate_color_option("success_color", key, value)) .return
-  .if (validate_color_option("failure_color", key, value)) .return
-  .if (validate_color_option("text_color", key, value)) .return
-  .if (validate_color_option("background_color", key, value)) .return
-  .if (validate_color_option("border_color", key, value)) .return
+  .if (validate_color_option("success_color", key, value)) .return null
+  .if (validate_color_option("failure_color", key, value)) .return null
+  .if (validate_color_option("text_color", key, value)) .return null
+  .if (validate_color_option("background_color", key, value)) .return null
+  .if (validate_color_option("border_color", key, value)) .return null
 
-  .if (validate_character_option("immediate_result_success_character", key, value)) .return
-  .if (validate_character_option("immediate_result_failure_character", key, value)) .return
+  .if (validate_character_option("immediate_result_success_character", key, value)) .return null
+  .if (validate_character_option("immediate_result_failure_character", key, value)) .return null
 
-  .if (validate_non_empty_string_option("result_file_name", key, value)) .return
+  .if (validate_non_empty_string_option("result_file_name", key, value)) .return null
 
   .if (validate_set_option("change_character_set", List().add(
     _64SPEC_SET_OPTION("\"lowercase\"", "lowercase"),
     _64SPEC_SET_OPTION("\"uppercase\"", "uppercase"),
     _64SPEC_SET_OPTION("false", false)
-  ), key, value)) .return
+  ), key, value)) .return null
 
   .if (validate_set_option("on_exit", List().add(
     _64SPEC_SET_OPTION("\"rts\"", "rts"),
     _64SPEC_SET_OPTION("\"loop\"", "loop"),
     _64SPEC_SET_OPTION("\"jam\"", "jam")
-  ), key, value)) .return
+  ), key, value)) .return null
 
-  .if (mark_custom_memory_address_option("assertion_passed_subroutine", key, value)) .return
-  .if (mark_custom_memory_address_option("assertion_failed_subroutine", key, value)) .return
-  .if (mark_custom_memory_address_option("result_all_passed_message", key, value)) .return
-  .if (mark_custom_memory_address_option("result_some_passed_message", key, value)) .return
-  .if (mark_custom_memory_address_option("result_all_failed_message", key, value)) .return
+  .if (mark_custom_memory_address_option("assertion_passed_subroutine", key, value)) .return null
+  .if (mark_custom_memory_address_option("assertion_failed_subroutine", key, value)) .return null
+  .if (mark_custom_memory_address_option("result_all_passed_message", key, value)) .return null
+  .if (mark_custom_memory_address_option("result_some_passed_message", key, value)) .return null
+  .if (mark_custom_memory_address_option("result_all_failed_message", key, value)) .return null
 
   .error "Unrecognized _64SPEC configuration option - \"" + key + "\""
 }
@@ -379,14 +379,14 @@ tests_init:
   :_print_char #[[_64SPEC.change_character_set == "lowercase"] ? _LOWERCASE : _UPPERCASE]
 } 
 .if (_64SPEC.change_text_color && _64SPEC.revert_to_initial_text_color) {
-  :_64spec_mov _TEXT_COLOR; _initial_text_color
+  :_64spec_mov _TEXT_COLOR : _initial_text_color
 }
   :_set_text_color #_64SPEC.text_color
 .if (_64SPEC.change_background_color) {
-  :_64spec_mov #_64SPEC.background_color; _BACKGROUND
+  :_64spec_mov #_64SPEC.background_color : _BACKGROUND
 }
 .if (_64SPEC.change_border_color) {
-  :_64spec_mov #_64SPEC.border_color; _BORDER
+  :_64spec_mov #_64SPEC.border_color : _BORDER
 }
 .if (_64SPEC.print_header) {
   :_print_string #sfspec._header
@@ -456,8 +456,8 @@ specification:
   }
 }
 .macro _reset_tests_result(namespace) {
-  :_64spec_mov16 #$0000; namespace._total_assertions_count
-  :_64spec_mov16 #$0000; namespace._passed_assertions_count
+  :_64spec_mov16 #$0000 : namespace._total_assertions_count
+  :_64spec_mov16 #$0000 : namespace._passed_assertions_count
 }
 .macro _calculate_tests_result(namespace) {
     lda namespace._total_assertions_count
@@ -569,198 +569,201 @@ specification:
 }
 
 // Assertions
-.pseudocommand assert_i_cleared pass_subroutine; fail_subroutine {
-  :assert_i_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_i_cleared pass_subroutine : fail_subroutine {
+  :assert_i_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_i_set pass_subroutine; fail_subroutine {
-  :assert_p_has_masked_bits_set #%00000100; _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine); _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine)
+.pseudocommand assert_i_set pass_subroutine : fail_subroutine {
+  :assert_p_has_masked_bits_set #%00000100 : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine) : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine)
 }
 
-.pseudocommand assert_d_cleared pass_subroutine; fail_subroutine {
-  :assert_d_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_d_cleared pass_subroutine : fail_subroutine {
+  :assert_d_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_d_set pass_subroutine; fail_subroutine {
-  :assert_p_has_masked_bits_set #%00001000; _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine); _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine)
+.pseudocommand assert_d_set pass_subroutine : fail_subroutine {
+  :assert_p_has_masked_bits_set #%00001000 : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine) : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine)
 }
 
-.pseudocommand assert_p_has_masked_bits_cleared mask; pass_subroutine; fail_subroutine {
-  :assert_masked_bits_cleared sfspec._stored_p; mask; pass_subroutine; fail_subroutine
+.pseudocommand assert_p_has_masked_bits_cleared mask : pass_subroutine : fail_subroutine {
+  :assert_masked_bits_cleared sfspec._stored_p : mask : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_p_has_masked_bits_set mask; pass_subroutine; fail_subroutine {
-  :assert_masked_bits_set sfspec._stored_p; mask; pass_subroutine; fail_subroutine
+.pseudocommand assert_p_has_masked_bits_set mask : pass_subroutine : fail_subroutine {
+  :assert_masked_bits_set sfspec._stored_p : mask : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_masked_bits_cleared actual; mask; pass_subroutine; fail_subroutine {
+.pseudocommand assert_masked_bits_cleared actual : mask : pass_subroutine : fail_subroutine {
     :_store_state()
     lda actual
     eor $ff
     and mask 
     bne pass_or_fail.fail
-  pass_or_fail: :_pass_or_fail pass_subroutine; fail_subroutine
+  pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
     :_restore_state()
 }
-.pseudocommand assert_masked_bits_set actual; mask; pass_subroutine; fail_subroutine {
+.pseudocommand assert_masked_bits_set actual : mask : pass_subroutine : fail_subroutine {
     :_store_state()
     lda actual
     and mask
     cmp mask 
     bne pass_or_fail.fail
-  pass_or_fail: :_pass_or_fail pass_subroutine; fail_subroutine
+  pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
     :_restore_state()
 }
-.pseudocommand assert_p_equal expected; pass_subroutine; fail_subroutine {
-  :assert_equal sfspec._stored_p; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_p_equal expected : pass_subroutine : fail_subroutine {
+  :assert_equal sfspec._stored_p : expected : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_v_cleared pass_subroutine; fail_subroutine {
-  :assert_v_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_v_cleared pass_subroutine : fail_subroutine {
+  :assert_v_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_v_set pass_subroutine; fail_subroutine {
-  :assert_p_has_masked_bits_set #%01000000; pass_subroutine; fail_subroutine
+.pseudocommand assert_v_set pass_subroutine : fail_subroutine {
+  :assert_p_has_masked_bits_set #%01000000 : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_n_cleared pass_subroutine; fail_subroutine {
-  :assert_n_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_n_cleared pass_subroutine : fail_subroutine {
+  :assert_n_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_n_set pass_subroutine; fail_subroutine {
+.pseudocommand assert_n_set pass_subroutine : fail_subroutine {
 
-  :assert_p_has_masked_bits_set #%10000000; pass_subroutine; fail_subroutine
+  :assert_p_has_masked_bits_set #%10000000 : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_c_cleared pass_subroutine; fail_subroutine {
-  :assert_c_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
-}
-
-.pseudocommand assert_c_set pass_subroutine; fail_subroutine {
-  :assert_p_has_masked_bits_set #%00000001; pass_subroutine; fail_subroutine
+.pseudocommand assert_c_cleared pass_subroutine : fail_subroutine {
+  :assert_c_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_z_cleared pass_subroutine; fail_subroutine {
-  :assert_z_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_c_set pass_subroutine  : fail_subroutine {
+  :assert_p_has_masked_bits_set #%00000001 : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_z_set pass_subroutine; fail_subroutine {
-  :assert_p_has_masked_bits_set #%00000010; pass_subroutine; fail_subroutine
+.pseudocommand assert_z_cleared pass_subroutine : fail_subroutine {
+  :assert_z_set _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_y_not_zero pass_subroutine; fail_subroutine {
-  :assert_y_zero _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_z_set pass_subroutine : fail_subroutine {
+  :assert_p_has_masked_bits_set #%00000010 : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_y_zero pass_subroutine; fail_subroutine {
-  :assert_y_equal #0; pass_subroutine; fail_subroutine
+.pseudocommand assert_y_not_zero pass_subroutine : fail_subroutine {
+  :assert_y_zero _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_y_not_equal expected; pass_subroutine; fail_subroutine {
-  :assert_y_equal expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_y_zero pass_subroutine : fail_subroutine {
+  :assert_y_equal #0 : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_y_equal expected; pass_subroutine; fail_subroutine {
-  :assert_equal sfspec._stored_y; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_y_not_equal expected : pass_subroutine : fail_subroutine {
+  :assert_y_equal expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_x_not_zero pass_subroutine; fail_subroutine {
-  :assert_x_zero _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_y_equal expected : pass_subroutine : fail_subroutine {
+  :assert_equal sfspec._stored_y : expected : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_x_zero pass_subroutine; fail_subroutine {
-  :assert_x_equal #0; pass_subroutine; fail_subroutine
+.pseudocommand assert_x_not_zero pass_subroutine : fail_subroutine {
+  :assert_x_zero _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_x_not_equal expected; pass_subroutine; fail_subroutine {
-  :assert_x_equal expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
-}
-.pseudocommand assert_x_equal expected; pass_subroutine; fail_subroutine {
-  :assert_equal sfspec._stored_x; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_x_zero pass_subroutine : fail_subroutine {
+  :assert_x_equal #0 : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_a_not_zero pass_subroutine; fail_subroutine {
-  :assert_a_zero _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_x_not_equal expected : pass_subroutine : fail_subroutine {
+  :assert_x_equal expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+}
+.pseudocommand assert_x_equal expected : pass_subroutine : fail_subroutine {
+  :assert_equal sfspec._stored_x : expected : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_a_zero pass_subroutine; fail_subroutine {
-  :assert_a_equal #0; pass_subroutine; fail_subroutine
+.pseudocommand assert_xy_equal pass_subroutine : fail_subroutine {
+  :assert_equal sfspec._stored_x : sfspec._stored_y : pass_subroutine : fail_subroutine
+}
+.pseudocommand assert_a_not_zero pass_subroutine : fail_subroutine {
+  :assert_a_zero _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_a_not_equal expected; pass_subroutine; fail_subroutine {
-  :assert_a_equal expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_a_zero pass_subroutine : fail_subroutine {
+  :assert_a_equal #0 : pass_subroutine : fail_subroutine
 }
 
-.pseudocommand assert_a_equal expected; pass_subroutine; fail_subroutine {
-  :assert_equal sfspec._stored_a; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_a_not_equal expected : pass_subroutine : fail_subroutine {
+  :assert_a_equal expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_not_equal actual; expected; pass_subroutine; fail_subroutine {
-  :assert_equal actual; expected;_given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_a_equal expected : pass_subroutine : fail_subroutine {
+  :assert_equal sfspec._stored_a : expected : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_not_equal16 actual; expected; pass_subroutine; fail_subroutine {
-  :assert_equal16 actual; expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+
+.pseudocommand assert_not_equal actual : expected : pass_subroutine : fail_subroutine {
+  :assert_equal actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
-.pseudocommand assert_not_equal24 actual; expected; pass_subroutine; fail_subroutine {
-  :assert_equal24 actual; expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_not_equal16 actual : expected : pass_subroutine : fail_subroutine {
+  :assert_equal16 actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
-.pseudocommand assert_not_equal32 actual; expected; pass_subroutine; fail_subroutine {
-  :assert_equal32 actual; expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_not_equal24 actual : expected : pass_subroutine : fail_subroutine {
+  :assert_equal24 actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+}
+.pseudocommand assert_not_equal32 actual : expected : pass_subroutine : fail_subroutine {
+  :assert_equal32 actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
 .macro assert_bytes_not_equal(bytes_count, actual, expected, pass_subroutine, fail_subroutine) {
   :assert_bytes_equal(bytes_count, actual, expected, _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine), _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine))
 }
-.pseudocommand assert_bytes_not_equal bytes_count; actual; expected; pass_subroutine; fail_subroutine {
-  :assert_bytes_equal bytes_count; actual; expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_bytes_not_equal bytes_count : actual : expected : pass_subroutine : fail_subroutine {
+  :assert_bytes_equal bytes_count : actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_equal actual; expected; pass_subroutine; fail_subroutine {
-   :_assert_equal _bits_to_bytes(8); actual; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_equal actual : expected : pass_subroutine : fail_subroutine {
+   :_assert_equal _bits_to_bytes(8) : actual : expected : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_equal16 actual; expected; pass_subroutine; fail_subroutine {
-   :_assert_equal _bits_to_bytes(16); actual; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_equal16 actual : expected : pass_subroutine : fail_subroutine {
+   :_assert_equal _bits_to_bytes(16) : actual : expected : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_equal24 actual; expected; pass_subroutine; fail_subroutine {
-   :_assert_equal _bits_to_bytes(24); actual; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_equal24 actual : expected : pass_subroutine : fail_subroutine {
+   :_assert_equal _bits_to_bytes(24) : actual : expected : pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_equal32 actual; expected; pass_subroutine; fail_subroutine {
-   :_assert_equal _bits_to_bytes(32); actual; expected; pass_subroutine; fail_subroutine
+.pseudocommand assert_equal32 actual : expected : pass_subroutine : fail_subroutine {
+   :_assert_equal _bits_to_bytes(32) : actual : expected : pass_subroutine : fail_subroutine
 }
 
 
-.pseudocommand _assert_equal bytes_count; actual; expected; pass_subroutine; fail_subroutine {
+.pseudocommand _assert_equal bytes_count : actual : expected : pass_subroutine : fail_subroutine {
   :_store_state()  
   .for (var byte_id = 0; byte_id < bytes_count.getValue(); byte_id++) {
     lda _64spec_extract_byte_argument(actual, byte_id)
     cmp _64spec_extract_byte_argument(expected, byte_id)
     bne pass_or_fail.fail
   } 
-  pass_or_fail: :_pass_or_fail pass_subroutine; fail_subroutine
+  pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
   :_restore_state()
 }
 
-.pseudocommand assert_unsigned_greater_or_equal actual; expected; pass_subroutine; fail_subroutine {
-  :assert_unsigned_less actual; expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_unsigned_greater_or_equal actual : expected : pass_subroutine : fail_subroutine {
+  :assert_unsigned_less actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_unsigned_less actual; expected; pass_subroutine; fail_subroutine {
+.pseudocommand assert_unsigned_less actual : expected : pass_subroutine : fail_subroutine {
   :_store_state()  
     lda actual
     cmp expected
     bcs pass_or_fail.fail
-  pass_or_fail: :_pass_or_fail pass_subroutine; fail_subroutine
+  pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
   :_restore_state()
 }
 
-.pseudocommand assert_unsigned_less_or_equal actual; expected; pass_subroutine; fail_subroutine {
-  :assert_unsigned_greater actual; expected; _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine); _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
+.pseudocommand assert_unsigned_less_or_equal actual : expected : pass_subroutine : fail_subroutine {
+  :assert_unsigned_greater actual : expected : _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine) : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
 }
 
-.pseudocommand assert_unsigned_greater actual; expected; pass_subroutine; fail_subroutine {
+.pseudocommand assert_unsigned_greater actual : expected : pass_subroutine : fail_subroutine {
   :_store_state()  
     lda actual
     cmp expected
     bcc pass_or_fail.fail
     beq pass_or_fail.fail
-  pass_or_fail: :_pass_or_fail pass_subroutine; fail_subroutine
+  pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
   :_restore_state()
 }
 
@@ -782,7 +785,10 @@ specification:
     plp // restore p
 }
 
-.pseudocommand assert_bytes_equal bytes_count; actual; expected; pass_subroutine; fail_subroutine {
+.macro assert_bytes_equal(bytes_count, actual, expected, pass_subroutine, fail_subroutine) {
+  :assert_bytes_equal bytes_count : actual : expected : _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine) :  _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine)
+}
+.pseudocommand assert_bytes_equal bytes_count : actual : expected : pass_subroutine : fail_subroutine {
   // TODO: remove pages and remainder branches
   .var remainder = mod(bytes_count.getValue(), 256)
   .var offset = bytes_count.getValue() - remainder
@@ -815,21 +821,21 @@ specification:
     cpx #remainder
     bne loop
   !end:
-  pass_or_fail: :_pass_or_fail pass_subroutine; fail_subroutine
+  pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
 }
-.pseudocommand assert_pass pass_subroutine; fail_subroutine {
+.pseudocommand assert_pass pass_subroutine : fail_subroutine {
   :_store_state()
   jsr _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
   :_restore_state()
 }
 
-.pseudocommand assert_fail pass_subroutine; fail_subroutine {
+.pseudocommand assert_fail pass_subroutine : fail_subroutine {
   :_store_state()
   jsr _given_or_default(fail_subroutine, _64SPEC.assertion_failed_subroutine)
   :_restore_state()
 }
 
-.pseudocommand _pass_or_fail pass_subroutine; fail_subroutine {
+.pseudocommand _pass_or_fail pass_subroutine : fail_subroutine {
   pass:
     jsr _given_or_default(pass_subroutine, _64SPEC.assertion_passed_subroutine)
     jmp end
@@ -854,11 +860,10 @@ specification:
       .byte 0
     end_text:
     :_finalize_last_context()
-    :_finalize_last_example()
     lda sfspec._description_data + 2
     ora #%10000000
     sta sfspec._description_data + 2
-    :_64spec_mov16 #text; sfspec._last_context
+    :_64spec_mov16 #text : sfspec._last_context
     :_64spec_kernal_plot_get(sfspec._last_context._cursor_position)
     :_set_text_color #_64SPEC.text_color
     :_print_string #text
@@ -871,7 +876,7 @@ specification:
     .if (_64SPEC.change_context_description_text_color) {
       :_calculate_tests_result(sfspec._last_context)
     
-      bit sfspec._tests_result
+      bit sfspec._last_context._tests_result
       bvs pass
     fail:
       :_set_text_color #_64SPEC.failure_color
@@ -915,7 +920,7 @@ specification:
       lda sfspec._description_data + 2
       ora #%01000000
       sta sfspec._description_data + 2
-      :_64spec_mov16 #text; sfspec._last_example
+      :_64spec_mov16 #text : sfspec._last_example
       :_64spec_kernal_plot_get(sfspec._last_example._cursor_position)
       :_set_text_color #_64SPEC.text_color
       :_print_string #text
@@ -981,7 +986,7 @@ specification:
 }
 
 .pseudocommand _print_string string {
-  :_64spec_mov16 string; sfspec._print_string.string_address
+  :_64spec_mov16 string : sfspec._print_string.string_address
   jsr sfspec._print_string
 }
 .macro _print_string(string) {
@@ -1016,19 +1021,19 @@ end:
 
 .pseudocommand _set_text_color color {
   .if (_64SPEC.change_text_color) {
-    :_64spec_mov color; _TEXT_COLOR
+    :_64spec_mov color : _TEXT_COLOR
   }
 }
 
-.pseudocommand _64spec_mov source; destination {
-  :_64spec__mov _bits_to_bytes(8); source; destination
+.pseudocommand _64spec_mov source : destination {
+  :_64spec__mov _bits_to_bytes(8) : source : destination
 }
 
-.pseudocommand _64spec_mov16 source; destination {
-  :_64spec__mov _bits_to_bytes(16); source; destination
+.pseudocommand _64spec_mov16 source : destination {
+  :_64spec__mov _bits_to_bytes(16) : source : destination
 }
 
-.pseudocommand _64spec__mov bytes_count; source; destination {
+.pseudocommand _64spec__mov bytes_count : source : destination {
   .for (var i = 0; i < bytes_count.getValue(); i++) {
     lda _64spec_extract_byte_argument(source, i) 
     sta _64spec_extract_byte_argument(destination, i) 
@@ -1036,10 +1041,10 @@ end:
 }
 
 .pseudocommand _64spec_inc16 arg {
-  :_64spec__inc _bits_to_bytes(16); arg
+  :_64spec__inc _bits_to_bytes(16) : arg
 }
 
-.pseudocommand _64spec__inc bytes;arg {
+.pseudocommand _64spec__inc bytes : arg {
   .for (var byte_id = 0;byte_id < bytes.getValue(); byte_id++) {
     inc _64spec_extract_byte_argument(arg, byte_id)
     bne end 
@@ -1083,8 +1088,8 @@ filename:
   :_64spec_pet_text(",p,w")
 end_filename:
   
-  :_64spec_kernal_setnam #[end_filename - filename]; #filename
-  :_64spec_kernal_setlfs #logical_file_number; #8; #2
+  :_64spec_kernal_setnam #[end_filename - filename] : #filename
+  :_64spec_kernal_setlfs #logical_file_number : #8 : #2
   :_64spec_kernal_open
 }
 
@@ -1103,13 +1108,13 @@ end_filename:
 }
 
 
-.pseudocommand _64spec_kernal_setnam length; string_address {
+.pseudocommand _64spec_kernal_setnam length : string_address {
   lda length
   ldx _64spec_extract_byte_argument(string_address, 0)
   ldy _64spec_extract_byte_argument(string_address, 1)
   jsr _SETNAM
 }
-.pseudocommand _64spec_kernal_setlfs logical_file_number; device_number; command {
+.pseudocommand _64spec_kernal_setlfs logical_file_number : device_number : command {
   lda logical_file_number
   ldx device_number
   ldy command
@@ -1174,3 +1179,5 @@ end_filename:
     .byte 0
   }
 }
+
+

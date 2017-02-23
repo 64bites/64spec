@@ -12,7 +12,7 @@ sfspec: :init_spec()
 :describe("assert_pass")
   :it("always passes")
     :assert_pass
-    :assert_pass _64SPEC.assertion_passed_subroutine; _64SPEC.assertion_failed_subroutine
+    :assert_pass _64SPEC.assertion_passed_subroutine: _64SPEC.assertion_failed_subroutine
 
   :it("does not affect A register")
     lda #4
@@ -44,21 +44,21 @@ sfspec: :init_spec()
   :describe("assert_fail")
 
   :it("always fails")
-    :assert_fail _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_fail _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #4
-    :assert_fail _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_fail _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     :assert_a_equal #4 
 
   :it("does not affect X register")
     ldx #4
-    :assert_fail _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_fail _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     :assert_x_equal #4 
 
   :it("does not affect Y register")
     ldy #4
-    :assert_fail _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_fail _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     :assert_y_equal #4 
 
   :it("does not affect Status register")
@@ -69,7 +69,7 @@ sfspec: :init_spec()
     pha
     plp
 
-    :assert_fail _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_fail _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     cld
 
   :finish_spec()

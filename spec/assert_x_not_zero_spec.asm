@@ -9,7 +9,7 @@ assert_x_not_zero_works_for_all_values_of_x: {
       :assert_x_not_zero 
     } else {
       ldx #x
-      :assert_x_not_zero _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_x_not_zero _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
   }
 }
@@ -20,7 +20,7 @@ assert_x_does_not_affect_x:
     .if (x != 0) {
       :assert_x_not_zero 
     } else {
-      :assert_x_not_zero _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_x_not_zero _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
     :assert_x_equal #x
   }

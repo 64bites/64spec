@@ -9,7 +9,7 @@ assert_y_zero_works_for_all_values_of_y: {
       :assert_y_zero 
     } else {
       ldy #y
-      :assert_y_zero _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_y_zero _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
   }
 }
@@ -20,7 +20,7 @@ assert_y_zero_does_not_affect_y:
     .if (y == 0) {
       :assert_y_zero 
     } else {
-      :assert_y_zero _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_y_zero _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
     :assert_y_equal #y
   }

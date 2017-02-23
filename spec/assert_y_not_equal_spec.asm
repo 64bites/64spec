@@ -11,7 +11,7 @@ assert_y_not_equal_works_for_all_values_of_y: {
       :assert_y_not_equal #expected
     } else {
       ldy #y
-      :assert_y_not_equal #expected; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_y_not_equal #expected: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
   }
 }
@@ -25,7 +25,7 @@ assert_y_not_equal_does_not_affect_y:
     .if (y != expected) {
       :assert_y_not_equal #expected
     } else {
-      :assert_y_not_equal #expected; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_y_not_equal #expected: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
     :assert_y_equal #y
   }

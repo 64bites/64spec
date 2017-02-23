@@ -11,7 +11,7 @@ assert_x_not_equal_works_for_all_values_of_x: {
       :assert_x_not_equal #expected
     } else {
       ldx #x
-      :assert_x_not_equal #expected; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_x_not_equal #expected: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
   }
 }
@@ -25,7 +25,7 @@ assert_x_not_equal_does_not_affect_x:
     .if (x != expected) {
       :assert_x_not_equal #expected
     } else {
-      :assert_x_not_equal #expected; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+      :assert_x_not_equal #expected: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     }
     :assert_x_equal #x
   }

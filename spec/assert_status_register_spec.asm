@@ -20,12 +20,12 @@ sfspec: :init_spec()
     sei
     sec
     sed
-    :assert_p_has_masked_bits_set #%00001101; _64SPEC.assertion_passed_subroutine; _64SPEC.assertion_failed_subroutine
+    :assert_p_has_masked_bits_set #%00001101: _64SPEC.assertion_passed_subroutine: _64SPEC.assertion_failed_subroutine
 
     lda #%10101010
     pha
     plp
-    :assert_p_has_masked_bits_set #%10101010; _64SPEC.assertion_passed_subroutine; _64SPEC.assertion_failed_subroutine
+    :assert_p_has_masked_bits_set #%10101010: _64SPEC.assertion_passed_subroutine: _64SPEC.assertion_failed_subroutine
 
     plp
 
@@ -38,30 +38,30 @@ sfspec: :init_spec()
     php
 
     cld
-    :assert_p_has_masked_bits_set #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_set #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     clc
-    :assert_p_has_masked_bits_set #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_set #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     cli
-    :assert_p_has_masked_bits_set #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_set #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     cld
     clc
-    :assert_p_has_masked_bits_set #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_set #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     cld
     clc
     cli
-    :assert_p_has_masked_bits_set #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_set #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     plp
   
@@ -103,30 +103,30 @@ sfspec: :init_spec()
     php
 
     sed
-    :assert_p_has_masked_bits_cleared #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_cleared #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     sec
-    :assert_p_has_masked_bits_cleared #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_cleared #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     sei
-    :assert_p_has_masked_bits_cleared #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_cleared #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     sed
     sec
-    :assert_p_has_masked_bits_cleared #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_cleared #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     php
 
     sed
     sec
     sei
-    :assert_p_has_masked_bits_cleared #%00001101; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_has_masked_bits_cleared #%00001101: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     plp
     plp
 
@@ -139,7 +139,7 @@ sfspec: :init_spec()
     sta tmp
     pha
     plp
-    :assert_p_equal tmp; _64SPEC.assertion_passed_subroutine; _64SPEC.assertion_failed_subroutine
+    :assert_p_equal tmp: _64SPEC.assertion_passed_subroutine: _64SPEC.assertion_failed_subroutine
 
   :it("passes if Status register is not equal to specified value")
     sec
@@ -149,7 +149,7 @@ sfspec: :init_spec()
     pha
     plp
     clc
-    :assert_p_equal tmp; _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_p_equal tmp: _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     php
@@ -168,8 +168,8 @@ sfspec: :init_spec()
     sta tmp
     pha
     plp
-    :assert_p_equal tmp; _64SPEC.assertion_passed_subroutine; _64SPEC.assertion_failed_subroutine
-    :assert_p_equal tmp; _64SPEC.assertion_passed_subroutine; _64SPEC.assertion_failed_subroutine
+    :assert_p_equal tmp: _64SPEC.assertion_passed_subroutine: _64SPEC.assertion_failed_subroutine
+    :assert_p_equal tmp: _64SPEC.assertion_passed_subroutine: _64SPEC.assertion_failed_subroutine
     cld
 
 
@@ -182,7 +182,7 @@ sfspec: :init_spec()
 
   :it("fails when Z flag is cleared")
     lda #1
-    :assert_z_set _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_z_set _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :describe("assert_z_cleared")
 
@@ -192,7 +192,7 @@ sfspec: :init_spec()
 
   :it("fails when Z flag is set")
     lda #0
-    :assert_z_cleared _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_z_cleared _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :describe("assert_z_set")
 
@@ -202,7 +202,7 @@ sfspec: :init_spec()
 
   :it("fails when Carry flag is cleared")
     clc
-    :assert_c_set _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_c_set _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :describe("assert_z_cleared")
 
@@ -212,7 +212,7 @@ sfspec: :init_spec()
 
   :it("fails when Carry flag is set")
     sec
-    :assert_c_cleared _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_c_cleared _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :describe("assert_d_set")
 
@@ -223,7 +223,7 @@ sfspec: :init_spec()
 
   :it("fails when Decimal flag is cleared")
     cld
-    :assert_d_set _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_d_set _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #4
@@ -240,7 +240,7 @@ sfspec: :init_spec()
 
   :it("fails when Decimal flag is set")
     sed
-    :assert_d_cleared _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_d_cleared _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     cld
 
   :it("does not affect A register")
@@ -258,7 +258,7 @@ sfspec: :init_spec()
 
   :it("fails when I flag is cleared")
     cli
-    :assert_i_set _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_i_set _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #4
@@ -275,7 +275,7 @@ sfspec: :init_spec()
 
   :it("fails when I flag is set")
     sei
-    :assert_i_cleared _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_i_cleared _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
     cli
 
   :it("does not affect A register")
@@ -293,7 +293,7 @@ sfspec: :init_spec()
 
   :it("fails when N flag is cleared")
     lda #1
-    :assert_n_set _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_n_set _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #4
@@ -309,7 +309,7 @@ sfspec: :init_spec()
 
   :it("fails when N flag is set")
     lda #-1
-    :assert_n_cleared _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_n_cleared _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #-4
@@ -325,7 +325,7 @@ sfspec: :init_spec()
 
   :it("fails when V flag is cleared")
     clv
-    :assert_v_set _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_v_set _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #4
@@ -341,7 +341,7 @@ sfspec: :init_spec()
 
   :it("fails when V flag is set")
     bit byte_with_bit_6_set
-    :assert_v_cleared _64SPEC.assertion_failed_subroutine; _64SPEC.assertion_passed_subroutine
+    :assert_v_cleared _64SPEC.assertion_failed_subroutine: _64SPEC.assertion_passed_subroutine
 
   :it("does not affect A register")
     lda #4
