@@ -27,7 +27,7 @@
 .const _64SPEC_VERSION_PATCH = 0
 
 .function _64spec_version() {
-  .return "" + _64SPEC_VERSION_MAJOR + '.' + _64SPEC_VERSION_MINOR + '.' + _64SPEC_VERSION_PATCH
+  .return "" + _64SPEC_VERSION_MAJOR + "." + _64SPEC_VERSION_MINOR + "." + _64SPEC_VERSION_PATCH
 }
 
 .const _TEXT_COLOR = $0286
@@ -188,15 +188,15 @@
   .if (validate_non_empty_string_option("result_file_name", key, value)) .return null
 
   .if (validate_set_option("change_character_set", List().add(
-    _64SPEC_SET_OPTION("\"lowercase\"", "lowercase"),
-    _64SPEC_SET_OPTION("\"uppercase\"", "uppercase"),
+    _64SPEC_SET_OPTION(@"\"lowercase\"", "lowercase"),
+    _64SPEC_SET_OPTION(@"\"uppercase\"", "uppercase"),
     _64SPEC_SET_OPTION("false", false)
   ), key, value)) .return null
 
   .if (validate_set_option("on_exit", List().add(
-    _64SPEC_SET_OPTION("\"rts\"", "rts"),
-    _64SPEC_SET_OPTION("\"loop\"", "loop"),
-    _64SPEC_SET_OPTION("\"jam\"", "jam")
+    _64SPEC_SET_OPTION(@"\"rts\"", "rts"),
+    _64SPEC_SET_OPTION(@"\"loop\"", "loop"),
+    _64SPEC_SET_OPTION(@"\"jam\"", "jam")
   ), key, value)) .return null
 
   .if (mark_custom_memory_address_option("assertion_passed_subroutine", key, value)) .return null
@@ -205,7 +205,7 @@
   .if (mark_custom_memory_address_option("result_some_passed_message", key, value)) .return null
   .if (mark_custom_memory_address_option("result_all_failed_message", key, value)) .return null
 
-  .error "Unrecognized _64SPEC configuration option - \"" + key + "\""
+  .error @"Unrecognized _64SPEC configuration option - \"" + key + @"\""
 }
 .function mark_custom_memory_address_option(expected_key, key, value) {
   .if (key != expected_key) .return false
@@ -218,7 +218,7 @@
   .if (key != expected_key) .return false
 
   .if(value < 0 || value > 15) {
-    .error "_64SPEC configuration option - \"" + expected_key + "\" has to be a valid color index in a range [0..15]."
+    .error @"_64SPEC configuration option - \"" + expected_key + @"\" has to be a valid color index in a range [0..15]."
   }
 
   .eval _64SPEC.set(key, value)
@@ -228,7 +228,7 @@
   .if (key != expected_key) .return false
 
   .if (value != true && value != false) {
-    .error "_64SPEC configuration option - \"" + expected_key + "\" has to be either be true or false."
+    .error @"_64SPEC configuration option - \"" + expected_key + @"\" has to be either be true or false."
   }
 
   .eval _64SPEC.set(key, value)
@@ -239,7 +239,7 @@
   .if (key != expected_key) .return false
 
   .if (value == "") {
-    .error "_64SPEC configuration option - \"" + expected_key + "\" cannot be an empty string."
+    .error @"_64SPEC configuration option - \"" + expected_key + @"\" cannot be an empty string."
   }
 
   .eval _64SPEC.set(key, value)
@@ -250,7 +250,7 @@
   .if (key != expected_key) .return false
 
   .if (value != "default" && [value < 0 || value > 255]) {
-    .error "_64SPEC configuration option - \"" + expected_key + "\" has to be a one byte value representing PETSCII character or \"default\"."
+    .error @"_64SPEC configuration option - \"" + expected_key + @"\" has to be a one byte value representing PETSCII character or \"default\"."
   }
 
   .eval _64SPEC.set(key, value)
@@ -272,7 +272,7 @@
     } 
   } 
 
-  .error "_64SPEC configuration option - \"" + expected_key + "\" has to be a one of: " + options_string
+  .error @"_64SPEC configuration option - \"" + expected_key + @"\" has to be a one of: " + options_string
 }
 
 .macro init_spec() {
