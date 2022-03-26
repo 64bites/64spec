@@ -1,19 +1,19 @@
 .importonce
 
 // The MIT License (MIT)
-// 
+//
 // Copyright (c) 2015 Michał Taszycki
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,7 +27,7 @@
 .const _64SPEC_VERSION_PATCH = 0
 
 .function _64spec_version() {
-  .return "" + _64SPEC_VERSION_MAJOR + "." + _64SPEC_VERSION_MINOR + "." + _64SPEC_VERSION_PATCH
+  .return "" + _64SPEC_VERSION_MAJOR + '.' + _64SPEC_VERSION_MINOR + '.' + _64SPEC_VERSION_PATCH
 }
 
 .const _TEXT_COLOR = $0286
@@ -144,7 +144,7 @@
 .eval config_64spec("result_some_passed_message", "default")
 .eval config_64spec("result_all_failed_message", "default")
 
-// Custom memory markers. 
+// Custom memory markers.
 // Some labels cannot be resolved in the first pass and we can't use them in .if statements.
 // Therefore additional boolean variables are used to signify if user customized an address.
 .eval _64SPEC.set("_use_custom_result_all_passed_message", false)
@@ -256,7 +256,7 @@
   .eval _64SPEC.set(key, value)
   .return true
 }
-.struct _64SPEC_SET_OPTION {name, value} 
+.struct _64SPEC_SET_OPTION {name, value}
 .function validate_set_option(expected_key, allowed_values, key, value) {
   .if (key != expected_key) .return false
 
@@ -269,8 +269,8 @@
     .if (value == allowed_values.get(i).value) {
       .eval _64SPEC.set(key, value)
       .return true
-    } 
-  } 
+    }
+  }
 
   .error @"_64SPEC configuration option - \"" + expected_key + @"\" has to be a one of: " + options_string
 }
@@ -372,12 +372,18 @@ _description_data: :_64spec_declare_description_data(_64SPEC.print_context_descr
     rts
 .pc = * "Test Initialization"
 tests_init:
+
+.if (_64SPEC.write_final_results_to_file) {
+  :_64spec_open_file_for_writing(_64SPEC.result_file_name, 13)
+  :_64spec_set_file_output(13)
+}
+
 .if (_64SPEC.clear_screen_at_initialization) {
   :_print_char #_CLS
 }
 .if (_64SPEC.change_character_set != false) {
   :_print_char #[[_64SPEC.change_character_set == "lowercase"] ? _LOWERCASE : _UPPERCASE]
-} 
+}
 .if (_64SPEC.change_text_color && _64SPEC.revert_to_initial_text_color) {
   :_64spec_mov _TEXT_COLOR : _initial_text_color
 }
@@ -398,7 +404,7 @@ specification:
 }
 
 .macro finish_spec() {
-.pc = * "Spec Results Rendering" 
+.pc = * "Spec Results Rendering"
     :_finalize_last_context()
     :_finalize_last_example()
     :render_results()
@@ -407,13 +413,18 @@ specification:
     } else {
       :_set_text_color #_64SPEC.text_color
     }
+
+    .if (_64SPEC.write_final_results_to_file) {
+      :_64spec_close_file(13)
+      :_64spec_set_screen_output()
+    }
     .if (_64SPEC.on_exit == "rts") {
         rts
     } else .if (_64SPEC.on_exit == "loop") {
       end:
         jmp end
     } else /* jam */ {
-        .byte $02 
+        .byte $02
     }
 }
 
@@ -495,23 +506,12 @@ specification:
   .if (_64SPEC.print_final_results) {
     :_print_final_results()
   }
-  .if (_64SPEC.write_final_results_to_file) {
-    :_write_final_results_to_file()
-  }
-}
-
-.macro _write_final_results_to_file() {
-  :_64spec_open_file_for_writing(_64SPEC.result_file_name, 13)
-  :_64spec_set_file_output(13)
-  :_print_final_results()
-  :_64spec_close_file(13)
-  :_64spec_set_screen_output()
 }
 
 .macro _change_text_color_on_final_result() {
   .if (_64SPEC.change_text_color_on_final_result) {
     bit sfspec._tests_result
-    bvs success 
+    bvs success
     failure:
       :_set_text_color #_64SPEC.failure_color
     jmp end
@@ -526,7 +526,7 @@ specification:
 .macro _set_screen_colors() {
   .if ([_64SPEC.change_border_color && _64SPEC.change_border_color_on_final_result] || [_64SPEC.change_background_color && _64SPEC.change_background_color_on_final_result]) {
       bit sfspec._tests_result
-      bvs success 
+      bvs success
   failure:
       lda #_64SPEC.failure_color
       jmp end
@@ -543,18 +543,18 @@ specification:
 }
 
 .macro _print_result_numbers(namespace) {
-  :_print_char #'(' 
+  :_print_char #'('
   :_print_int16 namespace._passed_assertions_count
-  :_print_char #'/' 
+  :_print_char #'/'
   :_print_int16 namespace._total_assertions_count
-  :_print_char #')' 
+  :_print_char #')'
   :_print_char #_CR
 }
 
 .macro _print_final_results() {
     :_print_char #_CR
     bit sfspec._tests_result
-    bvs success 
+    bvs success
     bmi partial_failure
   failure:
     :_print_string #_64SPEC.result_all_failed_message
@@ -595,7 +595,7 @@ specification:
     :_store_state()
     lda actual
     eor $ff
-    and mask 
+    and mask
     bne pass_or_fail.fail
   pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
     :_restore_state()
@@ -604,7 +604,7 @@ specification:
     :_store_state()
     lda actual
     and mask
-    cmp mask 
+    cmp mask
     bne pass_or_fail.fail
   pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
     :_restore_state()
@@ -730,12 +730,12 @@ specification:
 
 
 .pseudocommand _assert_equal bytes_count : actual : expected : pass_subroutine : fail_subroutine {
-  :_store_state()  
+  :_store_state()
   .for (var byte_id = 0; byte_id < bytes_count.getValue(); byte_id++) {
     lda _64spec_extract_byte_argument(actual, byte_id)
     cmp _64spec_extract_byte_argument(expected, byte_id)
     bne pass_or_fail.fail
-  } 
+  }
   pass_or_fail: :_pass_or_fail pass_subroutine : fail_subroutine
   :_restore_state()
 }
@@ -745,7 +745,7 @@ specification:
 }
 
 .pseudocommand assert_unsigned_less actual : expected : pass_subroutine : fail_subroutine {
-  :_store_state()  
+  :_store_state()
     lda actual
     cmp expected
     bcs pass_or_fail.fail
@@ -758,7 +758,7 @@ specification:
 }
 
 .pseudocommand assert_unsigned_greater actual : expected : pass_subroutine : fail_subroutine {
-  :_store_state()  
+  :_store_state()
     lda actual
     cmp expected
     bcc pass_or_fail.fail
@@ -772,7 +772,7 @@ specification:
     sta sfspec._stored_a
     stx sfspec._stored_x
     sty sfspec._stored_y
-    pla 
+    pla
     sta sfspec._stored_p
 }
 
@@ -802,10 +802,10 @@ specification:
     lda actual.getValue(), X
     .label expected_hi = * + 2
     cmp expected.getValue(), X
-    bne pass_or_fail.fail 
+    bne pass_or_fail.fail
     inx
     bne loopx
-    inc actual_hi 
+    inc actual_hi
     inc expected_hi
     dey
     bne loopy
@@ -816,7 +816,7 @@ specification:
   loop:
     lda offset + actual.getValue(), X
     cmp offset + expected.getValue(), X
-    bne pass_or_fail.fail 
+    bne pass_or_fail.fail
     inx
     cpx #remainder
     bne loop
@@ -855,7 +855,7 @@ specification:
       .byte ' '
       .byte 0
     scoring:
-      .text "           " 
+      .text "           "
       .byte _CR
       .byte 0
     end_text:
@@ -875,7 +875,7 @@ specification:
   .if (_64SPEC.print_context_description ) {
     .if (_64SPEC.change_context_description_text_color) {
       :_calculate_tests_result(sfspec._last_context)
-    
+
       bit sfspec._last_context._tests_result
       bvs pass
     fail:
@@ -912,7 +912,7 @@ specification:
       .byte ' '
       .byte 0
     scoring:
-      .text "           " 
+      .text "           "
       .byte _CR
       .byte 0
     end_text:
@@ -989,6 +989,7 @@ specification:
   :_64spec_mov16 string : sfspec._print_string.string_address
   jsr sfspec._print_string
 }
+
 .macro _print_string(string) {
   ldy #0
 loop:
@@ -1035,9 +1036,9 @@ end:
 
 .pseudocommand _64spec__mov bytes_count : source : destination {
   .for (var i = 0; i < bytes_count.getValue(); i++) {
-    lda _64spec_extract_byte_argument(source, i) 
-    sta _64spec_extract_byte_argument(destination, i) 
-  } 
+    lda _64spec_extract_byte_argument(source, i)
+    sta _64spec_extract_byte_argument(destination, i)
+  }
 }
 
 .pseudocommand _64spec_inc16 arg {
@@ -1047,7 +1048,7 @@ end:
 .pseudocommand _64spec__inc bytes : arg {
   .for (var byte_id = 0;byte_id < bytes.getValue(); byte_id++) {
     inc _64spec_extract_byte_argument(arg, byte_id)
-    bne end 
+    bne end
   }
   end:
 }
@@ -1059,7 +1060,7 @@ end:
   .var result = screencode
   .if (screencode < 32) {
     .return result + 64
-  } 
+  }
   .if (screencode < 64) {
     .return result
   }
@@ -1071,13 +1072,13 @@ end:
   }
   .if (screencode < 128) {
     .return result + 64
-  } 
+  }
   .if (screencode < 160) {
     .return result - 128
-  } 
+  }
   .if (screencode < 224) {
     .return result - 64
-  } 
+  }
   .return result
 }
 
@@ -1087,7 +1088,7 @@ filename:
   :_64spec_pet_text(string)
   :_64spec_pet_text(",p,w")
 end_filename:
-  
+
   :_64spec_kernal_setnam #[end_filename - filename] : #filename
   :_64spec_kernal_setlfs #logical_file_number : #8 : #2
   :_64spec_kernal_open
@@ -1144,11 +1145,11 @@ end_filename:
     _cursor_position: :_64spec_declare_cursor_position(allocate_data)
     _total_assertions_count: .if (allocate_data) .word 0
     _passed_assertions_count: .if (allocate_data) .word 0
-    _tests_result: .if (allocate_data) .byte 0 
+    _tests_result: .if (allocate_data) .byte 0
 }
 
 .macro _64spec_declare_description_data(allocate_data) {
-  _cursor_position: :_64spec_declare_cursor_position(allocate_data) 
+  _cursor_position: :_64spec_declare_cursor_position(allocate_data)
   _flags: .if (allocate_data) .byte 0 // - 7 cleared - first context, 6 cleared - first example
 }
 
